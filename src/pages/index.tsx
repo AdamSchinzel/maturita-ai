@@ -56,7 +56,7 @@ const Home = () => {
       console.log("error: ", err);
       toast({
         title: "Stala se chyba",
-        description: "Umělá intelegence neposkytla odpoveď.",
+        description: "Umělá intelegence neposkytla odpoveď na otázku.",
         status: "error",
         duration: 2000,
         isClosable: true,
