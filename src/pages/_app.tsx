@@ -16,11 +16,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="theme-color" content="#fff" />
         <link rel="icon" href="/static/favicon.ico" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="http://maturita-ai.vercel.com" />
+        <meta property="og:url" content="http://maturita-ai.vercel.app" />
         <meta property="og:title" content="Maturita AI (👨‍🎓, 🧠)" />
         <meta property="og:description" content="Umělá inteligence vypracování pro knih nebo otázek k maturitě." />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="http://maturita-ai.vercel.com" />
+        <meta property="twitter:url" content="http://maturita-ai.vercel.app" />
         <meta property="twitter:title" content="Maturita AI (👨‍🎓, 🧠)" />
         <meta
           property="twitter:description"

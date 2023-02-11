@@ -1,0 +1,16 @@
+{
+  "name": "Maturita AI",
+  "short_name": "Umělá inteligence pro vypracování knih nebo otázek k maturitě.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#9DECF9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/favicon.ico",
+      "type": "image/png",
+      "sizes": "48x48"
+    }
+  ]
+}

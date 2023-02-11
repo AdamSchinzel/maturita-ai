@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: http://maturita-ai.vercel.app
+
+# Sitemaps
+Sitemap: http://maturita-ai.vercel.app/sitemap.xml
