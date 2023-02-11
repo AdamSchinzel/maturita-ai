@@ -100,8 +100,6 @@ const Home = () => {
     setLoadingQuestion(false);
   };
 
-  const parts = bookDescription.split("<strong>", 1);
-  console.log(parts);
   return (
     <Flex direction="column" alignItems="center" height="100vh">
       <Heading size="xl" pt={16} pb={3} px={3}>
