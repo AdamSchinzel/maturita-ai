@@ -1,128 +1,214 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from '@next/font/google';
-import styles from '@/styles/Home.module.css';
+import { createRef, useState } from "react";
+import {
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  Tooltip,
+  useToast,
+} from "@chakra-ui/react";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
 
-// Note: The subsets need to use single quotes because the font loader values must be explicitly written literal.
-// eslint-disable-next-line @typescript-eslint/quotes
-const inter = Inter({ subsets: ['latin'] });
+const Home = () => {
+  const [title, setTitle] = useState<string>("");
+  const [autor, setAutor] = useState<string>("");
+  const [question, setQuestion] = useState<string>("");
+  const [loadingBook, setLoadingBook] = useState<boolean>(false);
+  const [loadingQuestion, setLoadingQuestion] = useState<boolean>(false);
+  const [bookDescription, setbookDescription] = useState<string>("");
+  const [questionDescription, setQuestionDescription] = useState<string>("");
 
-export default function Home() {
+  const toast = useToast();
+
+  async function copyTextToClipboard(text: string) {
+    if ("clipboard" in navigator) {
+      return await navigator.clipboard.writeText(text);
+    } else {
+      return document.execCommand("copy", true, text);
+    }
+  }
+
+  const fetchBook = async () => {
+    setLoadingBook(true);
+
+    try {
+      const response = await fetch("/api/book", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          autor,
+        }),
+      });
+      const data = await response.json();
+
+      setbookDescription(data?.bookDescription);
+    } catch (err) {
+      console.log("error: ", err);
+      toast({
+        title: "Stala se chyba",
+        description: "Umělá intelegence neposkytla odpoveď.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+
+    setTitle("");
+    setAutor("");
+    setLoadingBook(false);
+  };
+
+  const fetchQuestion = async () => {
+    setLoadingQuestion(true);
+
+    try {
+      const response = await fetch("/api/question", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question,
+        }),
+      });
+      const data = await response.json();
+
+      console.log(data?.questionDescription);
+      setQuestionDescription(data?.questionDescription);
+    } catch (err) {
+      console.log("error: ", err);
+      toast({
+        title: "Stala se chyba",
+        description: "Umělá intelegence neposkytla odpoveď.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+
+    setQuestion("");
+    setLoadingQuestion(false);
+  };
+
+  const parts = bookDescription.split("<strong>", 1);
+  console.log(parts);
   return (
-    <>
-      <Head>
-        <title>TypeScript starter for Next.js</title>
-        <meta
-          name="description"
-          content="TypeScript starter for Next.js that includes all you need to build amazing apps"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=typescript-nextjs-starter"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{` `}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
+    <Flex direction="column" alignItems="center" height="100vh">
+      <Heading size="xl" pt={16} pb={3} px={3}>
+        Maturita AI (👨‍🎓, 🧠)
+      </Heading>
+      <Flex alignItems="center" px={3}>
+        <Text fontSize="lg" textAlign="center" mr={2}>
+          Umělá inteligence pro vypracování knih nebo otázek k maturitě.
+        </Text>
+        <Tooltip label="Otázky vypracovává OpenAI" placement="bottom">
+          <InfoOutlineIcon />
+        </Tooltip>
+      </Flex>
+      <Tabs colorScheme="cyan" mt={10} w="70%">
+        <TabList>
+          <Tab>Knihy</Tab>
+          <Tab>Otázky</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Flex flexDir="column">
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Název díla"
+                mb={3}
+                isDisabled={loadingBook}
+                colorScheme="cyan"
               />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=typescript-nextjs-starter"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=typescript-nextjs-starter"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=typescript-nextjs-starter"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=typescript-nextjs-starter"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-    </>
+              <Input
+                value={autor}
+                onChange={(e) => setAutor(e.target.value)}
+                placeholder="Autor"
+                mb={5}
+                isDisabled={loadingBook}
+                colorScheme="cyan"
+              />
+              <Button
+                variant="solid"
+                colorScheme="cyan"
+                onClick={fetchBook}
+                isDisabled={loadingBook || !title || !autor}>
+                Vypracovat knihu
+              </Button>
+            </Flex>
+            {loadingBook ? (
+              <>
+                <Flex justifyContent="center">
+                  <Spinner size="lg" color="cyan" mt={20} />
+                </Flex>
+                <Text textAlign="center" mt={5}>
+                  Tato operace může nějakou dobu trvat...
+                </Text>
+              </>
+            ) : (
+              bookDescription && (
+                <>
+                  <Text fontSize="2xl" fontWeight="bold" mt={10}>
+                    Výsledek
+                  </Text>
+                  <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: bookDescription }}></div>
+                </>
+              )
+            )}
+          </TabPanel>
+          <TabPanel>
+            <Flex flexDir={["column"]}>
+              <Input
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="Název otázky"
+                mb={5}
+                isDisabled={loadingQuestion}
+                colorScheme="cyan"
+              />
+              <Button
+                variant="solid"
+                colorScheme="cyan"
+                onClick={fetchQuestion}
+                isDisabled={loadingQuestion || !question}>
+                Vypracovat otázku
+              </Button>
+            </Flex>
+            {loadingQuestion ? (
+              <>
+                <Flex justifyContent="center">
+                  <Spinner size="lg" color="cyan" mt={20} />
+                </Flex>
+                <Text textAlign="center" mt={5}>
+                  Tato operace může nějakou dobu trvat...
+                </Text>
+              </>
+            ) : (
+              questionDescription && (
+                <>
+                  <Text fontSize="2xl" fontWeight="bold" mt={10}>
+                    Výsledek
+                  </Text>
+                  <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: questionDescription }}></div>
+                </>
+              )
+            )}
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Flex>
   );
-}
+};
+
+export default Home;

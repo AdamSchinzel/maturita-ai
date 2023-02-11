@@ -1,9 +1,8 @@
 {
-  "name": "typescript-nextjs-starter",
-  "description": "A TypeScript starter for Next.js that includes all you need to build amazing projects",
+  "name": "maturita-ai",
+  "description": "Your AI powered Maturita assistant",
   "version": "1.0.0",
   "private": true,
-  "author": "João Pedro Schmitz <hey@joaopedro.dev> (@jpedroschmitz)",
   "license": "MIT",
   "keywords": [
     "nextjs",
@@ -26,7 +25,14 @@
     ]
   },
   "dependencies": {
+    "@babel/core": "7.20.12",
+    "@chakra-ui/icons": "2.0.17",
+    "@chakra-ui/react": "2.4.9",
+    "@chakra-ui/system": "2.3.8",
+    "@emotion/react": "11.10.5",
+    "@emotion/styled": "11.10.5",
     "@next/font": "13.1.6",
+    "framer-motion": "9.0.2",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0"

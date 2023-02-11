@@ -8,6 +8,7 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/no-unused-prop-types": "off",
+
     "react/require-default-props": "off",
     "import/extensions": [
       "error",
@@ -44,7 +45,7 @@
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/quotes": [
           2,
-          "backtick",
+          "double",
           {
             "avoidEscape": true
           }
