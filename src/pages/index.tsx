@@ -1,6 +1,11 @@
 import { useState } from "react";
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Button,
+  CloseButton,
   Flex,
   Heading,
   Input,
@@ -12,7 +17,9 @@ import {
   Tabs,
   Text,
   Tooltip,
+  useDisclosure,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 
@@ -24,6 +31,8 @@ const Home = () => {
   const [loadingQuestion, setLoadingQuestion] = useState<boolean>(false);
   const [bookDescription, setbookDescription] = useState<string>("");
   const [questionDescription, setQuestionDescription] = useState<string>("");
+
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
   const toast = useToast();
 
@@ -43,6 +52,7 @@ const Home = () => {
       });
       const data = await response.json();
 
+      onClose();
       setbookDescription(data?.bookDescription);
     } catch (err) {
       console.log("error: ", err);
@@ -137,6 +147,18 @@ const Home = () => {
                 Vypracovat knihu
               </Button>
             </Flex>
+            {isOpen && (
+              <Alert status="warning" mt={5} rounded={6}>
+                <AlertIcon w={30} />
+                <VStack width="100%" align="left" spacing={1} ml={2}>
+                  <AlertTitle textAlign="left">Možné chyby v dílech české literatury</AlertTitle>
+                  <AlertDescription textAlign="left">
+                    Tento model umělé inteligenci někdy postrádá informace o knihách z české literatury.
+                  </AlertDescription>
+                </VStack>
+                <CloseButton alignSelf="flex-start" position="relative" right={0} top={-1} onClick={onClose} />
+              </Alert>
+            )}
             {loadingBook ? (
               <>
                 <Flex justifyContent="center">
