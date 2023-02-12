@@ -14,7 +14,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="viewport" content="width=device-width initial-scale=1" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#fff" />
-        <link rel="icon" href="/static/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="http://maturita-ai.vercel.app" />
         <meta property="og:title" content="Maturita AI (👨‍🎓, 🧠)" />

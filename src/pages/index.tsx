@@ -1,4 +1,4 @@
-import { createRef, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Flex,
@@ -26,14 +26,6 @@ const Home = () => {
   const [questionDescription, setQuestionDescription] = useState<string>("");
 
   const toast = useToast();
-
-  async function copyTextToClipboard(text: string) {
-    if ("clipboard" in navigator) {
-      return await navigator.clipboard.writeText(text);
-    } else {
-      return document.execCommand("copy", true, text);
-    }
-  }
 
   const fetchBook = async () => {
     setLoadingBook(true);
