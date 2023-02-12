@@ -52,7 +52,6 @@ const Home = () => {
       });
       const data = await response.json();
 
-      onClose();
       setbookDescription(data?.bookDescription);
     } catch (err) {
       console.log("error: ", err);
@@ -115,7 +114,7 @@ const Home = () => {
           <InfoOutlineIcon />
         </Tooltip>
       </Flex>
-      <Tabs colorScheme="cyan" mt={10} w="70%">
+      <Tabs colorScheme="cyan" mt={10} w="75%">
         <TabList>
           <Tab>Knihy</Tab>
           <Tab>Otázky</Tab>
