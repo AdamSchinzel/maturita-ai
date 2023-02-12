@@ -7,7 +7,7 @@ const generateSeminarWork = async ({ about, language, type }: any) => {
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        prompt: `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>), text rozděl do odstavců a nahoru napiš tučným písmem téma práce. Na konci práce udelěj dva prádzné řádky a napiš co je pro daný slohový útvar typické.`,
+        prompt: `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>), text rozděl do odstavců a nahoru napiš tučným písmem téma práce. Na konci práce udelěj dva prádzné řádky a napiš co je typické pro tento slohý útvar`,
         max_tokens: 2000,
         temperature: 0.7,
       }),
