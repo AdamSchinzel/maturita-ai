@@ -84,7 +84,6 @@ const Home = () => {
       });
       const data = await response.json();
 
-      console.log(data?.questionDescription);
       setQuestionDescription(data?.questionDescription);
     } catch (err) {
       console.log("error: ", err);
