@@ -151,7 +151,7 @@ const Home = () => {
                 <VStack width="100%" align="left" spacing={1} ml={2}>
                   <AlertTitle textAlign="left">Možné chyby v dílech české literatury</AlertTitle>
                   <AlertDescription textAlign="left">
-                    Tento model umělé inteligenci někdy postrádá informace o knihách z české literatury.
+                    Tento model umělé inteligence někdy postrádá informace o knihách z české literatury.
                   </AlertDescription>
                 </VStack>
                 <CloseButton alignSelf="flex-start" position="relative" right={0} top={-1} onClick={onClose} />
