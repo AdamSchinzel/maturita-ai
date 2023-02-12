@@ -10,7 +10,10 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <title>Maturita AI (👨‍🎓, 🧠)</title>
-        <meta name="description" content="Umělá inteligence pro vypracování knih nebo otázek k maturitě." />
+        <meta
+          name="description"
+          content="Umělá inteligence pro vypracování knih, otázek k maturitě nebo napsání písemné práce."
+        />
         <meta name="viewport" content="width=device-width initial-scale=1" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#fff" />
@@ -18,13 +21,16 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="http://maturita-ai.vercel.app" />
         <meta property="og:title" content="Maturita AI (👨‍🎓, 🧠)" />
-        <meta property="og:description" content="Umělá inteligence vypracování pro knih nebo otázek k maturitě." />
+        <meta
+          property="og:description"
+          content="Umělá inteligence pro vypracování knih, otázek k maturitě nebo napsání písemné práce."
+        />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="http://maturita-ai.vercel.app" />
         <meta property="twitter:title" content="Maturita AI (👨‍🎓, 🧠)" />
         <meta
           property="twitter:description"
-          content="Umělá inteligence pro vypracování pro knih nebo otázek k maturitě."
+          content="Umělá inteligence pro vypracování knih, otázek k maturitě nebo napsání písemné práce."
         />
       </Head>
       <ChakraProvider theme={theme}>

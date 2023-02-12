@@ -152,9 +152,6 @@ const Home = () => {
         <Text fontSize="lg" textAlign="center" mr={2}>
           Umělá inteligence pro vypracování knih, otázek k maturitě nebo napsání písemné práce.
         </Text>
-        <Tooltip label="Otázky vypracovává OpenAI" placement="bottom">
-          <InfoOutlineIcon />
-        </Tooltip>
       </Flex>
       <Tabs colorScheme="cyan" mt={10} w="75%">
         <TabList>
