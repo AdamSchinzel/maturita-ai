@@ -11,7 +11,7 @@ const handler = async (req: Request): Promise<Response> => {
   };
 
   if (!prompt) {
-    return new Response("Hey" + (await req.json()));
+    return new Response("No prompt in the request", { status: 400 });
   }
 
   const payload: OpenAIStreamPayload = {
