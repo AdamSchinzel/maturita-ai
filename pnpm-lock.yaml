@@ -21,6 +21,7 @@ specifiers:
   eslint-import-resolver-typescript: 3.5.3
   eslint-plugin-import: 2.27.5
   eslint-plugin-prettier: 4.2.1
+  eventsource-parser: 0.1.0
   framer-motion: 9.0.2
   husky: 8.0.3
   lint-staged: 13.1.1
@@ -38,6 +39,7 @@ dependencies:
   '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
   '@emotion/styled': 11.10.5_4erqsq3n444jecyuvaxwc5b3vi
   '@next/font': 13.1.6
+  eventsource-parser: 0.1.0
   framer-motion: 9.0.2_biqbaboplfbrettd7655fr4n2y
   next: 13.1.6_pjwopsidmaokadturxaafygjp4
   react: 18.2.0
@@ -3294,6 +3296,11 @@ packages:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /eventsource-parser/0.1.0:
+    resolution: {integrity: sha512-M9QjFtEIkwytUarnx113HGmgtk52LSn3jNAtnWKi3V+b9rqSfQeVdLsaD5AG/O4IrGQwmAAHBIsqbmURPTd2rA==}
+    engines: {node: '>=14.18'}
+    dev: false
 
   /execa/5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
