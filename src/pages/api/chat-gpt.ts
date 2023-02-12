@@ -5,8 +5,9 @@ export const config = {
 };
 
 const handler = async (req: Request): Promise<Response> => {
-  const { prompt } = (await req.json()) as {
+  const { prompt, max_tokens } = (await req.json()) as {
     prompt?: string;
+    max_tokens: number;
   };
 
   if (!prompt) {
@@ -20,7 +21,7 @@ const handler = async (req: Request): Promise<Response> => {
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    max_tokens: 2000,
+    max_tokens,
     stream: true,
     n: 1,
   };

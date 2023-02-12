@@ -17,7 +17,6 @@ import {
   Tabs,
   Text,
   useDisclosure,
-  useToast,
   VStack,
 } from "@chakra-ui/react";
 
@@ -39,36 +38,123 @@ const Home = () => {
 
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
-  const bookPrompt = `Popiš detailně tyto body o knize ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>, všechny názvy knih piš česky): Autor, Doba vydání, Literární druh, Literární žánr, Forma vyprávění, Téma a motiv, Tématicky podobná díla, Časoprostor, Kompoziční výstavba, Životopis autora, Související autoři, Hlavní postavy a jejich charakteristika, Děj a obsah příběhu. Na konec uveď zdroje, z kterých si čerpal a odkazy na české webové stránky s rozbory dané knihy.`;
-  const questionPrompt = `Sepiš mi v těchto bodech (minimálně 400 slov) maturitní otázku na téma ${question} (zobraz v HTML kódu a místo /n dávej <br> a všechny odkazy se budou otevírat v novém okně a budou mít podtržení): Úvod do otázky, Obsah rozepiš obsáhle a do detailu, Odkazy na zajímavé a relavantní zdroje na internetu s českým obsahem, Závěr.`;
-  const seminarWorkPrompt = `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>), text rozděl do odstavců a nahoru napiš tučným písmem téma práce. Na konci práce udelěj dva prádzné řádky a napiš co je typické pro tento slohý útvar`;
+  const bookPrompt = `Popiš detailně tyto body o knize ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>, všechny názvy knih piš česky, začátek každého bodu napiš tučným písmem, na konec dej dvakrát za sebou <br>): Autor, Doba vydání, Literární druh, Literární žánr, Forma vyprávění, Téma a motiv, Tématicky podobná díla, Časoprostor, Kompoziční výstavba, Související autoři (mají podobnou tvorbu a žili v dané době).`;
+  const questionPrompt = `Sepiš mi v těchto bodech maturitní otázku na téma ${question} (zobraz v HTML kódu a místo /n dávej <br> a všechny odkazy se budou otevírat v novém okně a budou mít podtržení): Úvod do otázky, Obsah rozepiš obsáhle a do detailu, Odkazy na zajímavé a relavantní zdroje na internetu s českým obsahem, Závěr.`;
+  const seminarWorkPrompt = `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>), text rozděl do odstavců. Na konci práce udelěj dva prázdné řádky a napiš co je typické pro tento slohý útvar.`;
+
+  const autorPrompt = `Sepiš mi na maximálně 200 slov životopis autora ${autor} (zobraz v HTML kódu a místo /n dávej <br>, názvy piš v češtině, na konec dej dvakrát za sebou <br>, začni na novém řádku tučným textem Autor: a pokračuj v textu ).`;
+  const charactersPrompt = `Vypiš mi na stručně a v odrážkách hlavní postavy (kdo byly a jejich charakteristiku) knihy ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>, na konec dej dvakrát za sebou  <br>, názvy piš v češtině, začni na novém řádku tučným textem Hlavní postavy:)`;
+  const storyPrompt = `Sepiš mi na maximálně 400 slov děj knihy ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>, názvy piš v češtině, na konec dej dvakrát za sebou  <br>, začni na novém řádku tučným textem Příběh:).`;
 
   const fetchBook = async () => {
+    setbookDescription("");
     setLoadingBook(true);
 
-    const response = await fetch("/api/book", {
+    const responseBook = await fetch("/api/chat-gpt", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         prompt: bookPrompt,
+        max_tokens: 500,
       }),
     });
 
-    const data = response.body;
-    if (!data) {
+    const dataBook = responseBook.body;
+    if (!dataBook) {
       return;
     }
 
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
+    const readerBook = dataBook.getReader();
+    const decoderBook = new TextDecoder();
+    let doneBook = false;
 
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
+    while (!doneBook) {
+      const { value, done: doneReading } = await readerBook.read();
+      doneBook = doneReading;
+      const chunkValue = decoderBook.decode(value);
+      setbookDescription((prev) => prev + chunkValue);
+    }
+
+    const responseAutor = await fetch("/api/chat-gpt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: autorPrompt,
+        max_tokens: 800,
+      }),
+    });
+
+    const dataAutor = responseAutor.body;
+    if (!dataAutor) {
+      return;
+    }
+
+    const readerAutor = dataAutor.getReader();
+    const decoderAutor = new TextDecoder();
+    let doneAutor = false;
+
+    while (!doneAutor) {
+      const { value, done: doneReading } = await readerAutor.read();
+      doneAutor = doneReading;
+      const chunkValue = decoderAutor.decode(value);
+      setbookDescription((prev) => prev + chunkValue);
+    }
+
+    const responseCharacters = await fetch("/api/chat-gpt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: charactersPrompt,
+        max_tokens: 500,
+      }),
+    });
+
+    const dataCharacters = responseCharacters.body;
+    if (!dataCharacters) {
+      return;
+    }
+
+    const readerCharacters = dataCharacters.getReader();
+    const decoderCharacters = new TextDecoder();
+    let doneCharacters = false;
+
+    while (!doneCharacters) {
+      const { value, done: doneReading } = await readerCharacters.read();
+      doneCharacters = doneReading;
+      const chunkValue = decoderCharacters.decode(value);
+      setbookDescription((prev) => prev + chunkValue);
+    }
+
+    const responseStory = await fetch("/api/chat-gpt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: storyPrompt,
+        max_tokens: 800,
+      }),
+    });
+
+    const dataStory = responseStory.body;
+    if (!dataStory) {
+      return;
+    }
+
+    const readerStory = dataStory.getReader();
+    const decoderStory = new TextDecoder();
+    let doneStory = false;
+
+    while (!doneStory) {
+      const { value, done: doneReading } = await readerStory.read();
+      doneStory = doneReading;
+      const chunkValue = decoderStory.decode(value);
       setbookDescription((prev) => prev + chunkValue);
     }
 
@@ -78,15 +164,17 @@ const Home = () => {
   };
 
   const fetchQuestion = async () => {
+    setQuestionDescription("");
     setLoadingQuestion(true);
 
-    const response = await fetch("/api/question", {
+    const response = await fetch("/api/chat-gpt", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         prompt: questionPrompt,
+        max_tokens: 2000,
       }),
     });
 
@@ -111,15 +199,17 @@ const Home = () => {
   };
 
   const fetchSeminarWork = async () => {
+    setSeminarWork("");
     setLoadingSeminarWork(true);
 
-    const response = await fetch("/api/seminar-work", {
+    const response = await fetch("/api/chat-gpt", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         prompt: seminarWorkPrompt,
+        max_tokens: 2000,
       }),
     });
 
