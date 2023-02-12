@@ -160,7 +160,7 @@ const Home = () => {
         <TabList>
           <Tab>Knihy</Tab>
           <Tab>Otázky</Tab>
-          <Tab>Seminární práce</Tab>
+          <Tab>Písemná práce</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
