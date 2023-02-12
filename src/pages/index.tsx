@@ -192,9 +192,9 @@ const Home = () => {
               <Alert status="warning" mt={5} rounded={6}>
                 <AlertIcon w={30} />
                 <VStack width="100%" align="left" spacing={1} ml={2}>
-                  <AlertTitle textAlign="left">Možné chyby v dílech české literatury</AlertTitle>
+                  <AlertTitle textAlign="left">Možné chyby v textu</AlertTitle>
                   <AlertDescription textAlign="left">
-                    Tento model umělé inteligence někdy postrádá informace o knihách z české literatury.
+                    Vygenerovaný text si pro jistotu překontrolujte s ostatními zdroji na internetu o dané knize.
                   </AlertDescription>
                 </VStack>
                 <CloseButton alignSelf="flex-start" position="relative" right={0} top={-1} onClick={onClose} />
