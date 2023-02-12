@@ -10,19 +10,16 @@ import {
   Heading,
   Input,
   Select,
-  Spinner,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
-  Tooltip,
   useDisclosure,
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { InfoOutlineIcon } from "@chakra-ui/icons";
 
 const Home = () => {
   const [title, setTitle] = useState<string>("");
@@ -42,34 +39,37 @@ const Home = () => {
 
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
-  const toast = useToast();
+  const bookPrompt = `Popiš detailně tyto body (minimálně 400 slov celkem) o knížce ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>): Autor, Doba vydání, Literární druh, Literární žánr, Forma vyprávění, Téma a motiv, Tématicky podobná díla, Časoprostor, Kompoziční výstavba, Životopis autora, Další autoři z jeho země a stejné doby, Hlavní postavy a jejich charakteristika, Děj a obsah příběhu`;
+  const questionPrompt = `Sepiš mi v těchto bodech (minimálně 400 slov) maturitní otázku na téma ${question} (zobraz v HTML kódu a místo /n dávej <br> a všechny odkazy se budou otevírat v novém okně): Úvod do otázky, Obsah rozepiš obsáhle a do detailu, Odkazy na zajímavé a relavantní zdroje na internetu s českým obsahem, Závěr. Všechny odborné pojmy v textu přitom vysvětli.`;
+  const seminarWorkPrompt = `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>), text rozděl do odstavců a nahoru napiš tučným písmem téma práce. Na konci práce udelěj dva prádzné řádky a napiš co je typické pro tento slohý útvar`;
 
   const fetchBook = async () => {
     setLoadingBook(true);
 
-    try {
-      const response = await fetch("/api/book", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          autor,
-        }),
-      });
-      const data = await response.json();
+    const response = await fetch("/api/book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: bookPrompt,
+      }),
+    });
 
-      setbookDescription(data?.bookDescription);
-    } catch (err) {
-      console.log("error: ", err);
-      toast({
-        title: "Stala se chyba",
-        description: "Umělá intelegence neposkytla odpoveď na otázku.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setbookDescription((prev) => prev + chunkValue);
     }
 
     setTitle("");
@@ -80,28 +80,30 @@ const Home = () => {
   const fetchQuestion = async () => {
     setLoadingQuestion(true);
 
-    try {
-      const response = await fetch("/api/question", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question,
-        }),
-      });
-      const data = await response.json();
+    const response = await fetch("/api/question", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: questionPrompt,
+      }),
+    });
 
-      setQuestionDescription(data?.questionDescription);
-    } catch (err) {
-      console.log("error: ", err);
-      toast({
-        title: "Stala se chyba",
-        description: "Umělá intelegence neposkytla odpoveď.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setQuestionDescription((prev) => prev + chunkValue);
     }
 
     setQuestion("");
@@ -111,30 +113,30 @@ const Home = () => {
   const fetchSeminarWork = async () => {
     setLoadingSeminarWork(true);
 
-    try {
-      const response = await fetch("/api/seminar-work", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          about,
-          language,
-          type,
-        }),
-      });
-      const data = await response.json();
+    const response = await fetch("/api/seminar-work", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: seminarWorkPrompt,
+      }),
+    });
 
-      setSeminarWork(data?.seminarWork);
-    } catch (err) {
-      console.log("error: ", err);
-      toast({
-        title: "Stala se chyba",
-        description: "Umělá intelegence neposkytla odpoveď.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setSeminarWork((prev) => prev + chunkValue);
     }
 
     setAbout("");
@@ -198,24 +200,13 @@ const Home = () => {
                 <CloseButton alignSelf="flex-start" position="relative" right={0} top={-1} onClick={onClose} />
               </Alert>
             )}
-            {loadingBook ? (
+            {bookDescription && (
               <>
-                <Flex justifyContent="center">
-                  <Spinner size="lg" color="cyan" mt={20} />
-                </Flex>
-                <Text textAlign="center" mt={5}>
-                  Tato operace může nějakou dobu trvat...
+                <Text fontSize="2xl" fontWeight="bold" mt={10}>
+                  Výsledek
                 </Text>
+                <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: bookDescription }}></div>
               </>
-            ) : (
-              bookDescription && (
-                <>
-                  <Text fontSize="2xl" fontWeight="bold" mt={10}>
-                    Výsledek
-                  </Text>
-                  <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: bookDescription }}></div>
-                </>
-              )
             )}
           </TabPanel>
           <TabPanel>
@@ -236,24 +227,13 @@ const Home = () => {
                 Vypracovat otázku
               </Button>
             </Flex>
-            {loadingQuestion ? (
+            {questionDescription && (
               <>
-                <Flex justifyContent="center">
-                  <Spinner size="lg" color="cyan" mt={20} />
-                </Flex>
-                <Text textAlign="center" mt={5}>
-                  Tato operace může nějakou dobu trvat...
+                <Text fontSize="2xl" fontWeight="bold" mt={10}>
+                  Výsledek
                 </Text>
+                <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: questionDescription }}></div>
               </>
-            ) : (
-              questionDescription && (
-                <>
-                  <Text fontSize="2xl" fontWeight="bold" mt={10}>
-                    Výsledek
-                  </Text>
-                  <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: questionDescription }}></div>
-                </>
-              )
             )}
           </TabPanel>
           <TabPanel>
@@ -299,24 +279,13 @@ const Home = () => {
                 Napsat práci
               </Button>
             </Flex>
-            {loadingSeminarWork ? (
+            {seminarWork && (
               <>
-                <Flex justifyContent="center">
-                  <Spinner size="lg" color="cyan" mt={20} />
-                </Flex>
-                <Text textAlign="center" mt={5}>
-                  Tato operace může nějakou dobu trvat...
+                <Text fontSize="2xl" fontWeight="bold" mt={10}>
+                  Výsledek
                 </Text>
+                <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: seminarWork }}></div>
               </>
-            ) : (
-              seminarWork && (
-                <>
-                  <Text fontSize="2xl" fontWeight="bold" mt={10}>
-                    Výsledek
-                  </Text>
-                  <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: seminarWork }}></div>
-                </>
-              )
             )}
           </TabPanel>
         </TabPanels>
