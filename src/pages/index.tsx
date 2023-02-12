@@ -39,7 +39,7 @@ const Home = () => {
 
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
-  const bookPrompt = `Popiš detailně tyto body (minimálně 400 slov celkem) o knížce ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>): Autor, Doba vydání, Literární druh, Literární žánr, Forma vyprávění, Téma a motiv, Tématicky podobná díla, Časoprostor, Kompoziční výstavba, Životopis autora, Další autoři z jeho země a stejné doby, Hlavní postavy a jejich charakteristika, Děj a obsah příběhu`;
+  const bookPrompt = `Popiš detailně tyto body o knížce ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>): Autor, Doba vydání, Literární druh, Literární žánr, Forma vyprávění, Téma a motiv, 2 tématicky podobná díla, Časoprostor, Kompoziční výstavba, Životopis autora, 2 další autoři z jeho země a stejné doby, Hlavní postavy a jejich charakteristika, Děj a obsah příběhu`;
   const questionPrompt = `Sepiš mi v těchto bodech (minimálně 400 slov) maturitní otázku na téma ${question} (zobraz v HTML kódu a místo /n dávej <br> a všechny odkazy se budou otevírat v novém okně): Úvod do otázky, Obsah rozepiš obsáhle a do detailu, Odkazy na zajímavé a relavantní zdroje na internetu s českým obsahem, Závěr. Všechny odborné pojmy v textu přitom vysvětli.`;
   const seminarWorkPrompt = `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>), text rozděl do odstavců a nahoru napiš tučným písmem téma práce. Na konci práce udelěj dva prádzné řádky a napiš co je typické pro tento slohý útvar`;
 
