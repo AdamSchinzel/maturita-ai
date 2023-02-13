@@ -251,7 +251,7 @@ const Home = () => {
           Umělá inteligence pro vypracování knih, otázek k maturitě nebo napsání písemné práce.
         </Text>
       </Flex>
-      <Tabs colorScheme="cyan" mt={10} w="75%">
+      <Tabs colorScheme="cyan" mt={10} w={["90%", "85%", "75%"]}>
         <TabList>
           <Tab>Knihy</Tab>
           <Tab>Otázky</Tab>
