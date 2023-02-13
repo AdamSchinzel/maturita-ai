@@ -296,13 +296,19 @@ const Home = () => {
                 <CloseButton alignSelf="flex-start" position="relative" right={0} top={-1} onClick={onClose} />
               </Alert>
             )}
-            {bookDescription && (
+            {bookDescription ? (
               <>
                 <Text fontSize="2xl" fontWeight="bold" mt={10}>
                   Výsledek
                 </Text>
                 <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: bookDescription }}></div>
               </>
+            ) : (
+              loadingBook && (
+                <Flex justifyContent="center">
+                  <Spinner size="lg" color="cyan" mt={20} />
+                </Flex>
+              )
             )}
           </TabPanel>
           <TabPanel>
