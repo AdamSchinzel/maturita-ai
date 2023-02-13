@@ -10,6 +10,7 @@ import {
   Heading,
   Input,
   Select,
+  Spinner,
   Tab,
   TabList,
   TabPanel,
@@ -322,13 +323,19 @@ const Home = () => {
                 Vypracovat otázku
               </Button>
             </Flex>
-            {questionDescription && (
+            {questionDescription ? (
               <>
                 <Text fontSize="2xl" fontWeight="bold" mt={10}>
                   Výsledek
                 </Text>
                 <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: questionDescription }}></div>
               </>
+            ) : (
+              loadingQuestion && (
+                <Flex justifyContent="center">
+                  <Spinner size="lg" color="cyan" mt={20} />
+                </Flex>
+              )
             )}
           </TabPanel>
           <TabPanel>
@@ -376,13 +383,19 @@ const Home = () => {
                 Napsat práci
               </Button>
             </Flex>
-            {seminarWork && (
+            {seminarWork ? (
               <>
                 <Text fontSize="2xl" fontWeight="bold" mt={10}>
                   Výsledek
                 </Text>
                 <div style={{ marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: seminarWork }}></div>
               </>
+            ) : (
+              loadingSeminarWork && (
+                <Flex justifyContent="center">
+                  <Spinner size="lg" color="cyan" mt={20} />
+                </Flex>
+              )
             )}
           </TabPanel>
         </TabPanels>
