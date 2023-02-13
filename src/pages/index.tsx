@@ -39,12 +39,11 @@ const Home = () => {
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
 
   const bookPrompt = `Popiš detailně tyto body o knize ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>, všechny názvy knih piš česky, začátek každého bodu napiš tučným písmem, na konec dej dvakrát za sebou <br>): Autor, Doba vydání, Literární druh, Literární žánr, Forma vyprávění, Téma a motiv, Tématicky podobná díla, Časoprostor, Kompoziční výstavba, Související autoři (mají podobnou tvorbu a žili v dané době).`;
-  const questionPrompt = `Sepiš mi v těchto bodech maturitní otázku na téma ${question} (zobraz v HTML kódu a místo /n dávej <br>, všechny odkazy se budou otevírat v novém okně a budou mít podtržení): Úvod do otázky, Obsah rozepiš obsáhle a do detailu, Odkazy na zajímavé a relavantní zdroje na internetu s českým obsahem, Závěr.`;
-  const seminarWorkPrompt = `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>, text rozděl do odstavců, na konci práce dej dvakrát za sebou <br> a poté napiš tučně ${type} - prvky slohového útvaru:, pod to napiš v bodech co je typické pro tento slohý útvar).`;
-
   const autorPrompt = `Sepiš mi na maximálně 200 slov životopis autora ${autor} (zobraz v HTML kódu a místo /n dávej <br>, názvy piš v češtině, na konec dej dvakrát za sebou <br>, začni tučným textem Autor: a pokračuj v textu).`;
   const charactersPrompt = `Vypiš mi stručně a v odrážkách hlavní postavy (kdo byly a jejich charakteristiku) knihy ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>, na konec dej dvakrát za sebou  <br>, názvy piš v češtině, začni na novém řádku tučným textem Hlavní postavy:).`;
   const storyPrompt = `Sepiš mi na maximálně 400 slov děj knihy ${title} od ${autor} (zobraz v HTML kódu a místo /n dávej <br>, názvy piš v češtině, na konec dej dvakrát za sebou  <br>, začni na novém řádku tučným textem Příběh:).`;
+  const questionPrompt = `Sepiš mi v těchto bodech maturitní otázku na téma ${question} (zobraz v HTML kódu a místo /n dávej <br>, všechny odkazy se budou otevírat v novém okně a budou mít podtržení): Úvod do otázky, Obsah rozepiš obsáhle a do detailu, Odkazy na zajímavé a relavantní zdroje na internetu s českým obsahem, Závěr.`;
+  const seminarWorkPrompt = `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>, text rozděl do odstavců, na konci práce dej dvakrát za sebou <br> a poté napiš tučně ${type} - prvky slohového útvaru:, pod to napiš v bodech co je typické pro tento slohý útvar).`;
 
   const fetchBook = async () => {
     setbookDescription("");
