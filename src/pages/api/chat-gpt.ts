@@ -5,9 +5,10 @@ export const config = {
 };
 
 const handler = async (req: Request): Promise<Response> => {
-  const { prompt, max_tokens } = (await req.json()) as {
+  const { prompt, max_tokens, temperature } = (await req.json()) as {
     prompt?: string;
     max_tokens: number;
+    temperature: number;
   };
 
   if (!prompt) {
@@ -17,7 +18,7 @@ const handler = async (req: Request): Promise<Response> => {
   const payload: OpenAIStreamPayload = {
     model: "text-davinci-003",
     prompt,
-    temperature: 0,
+    temperature,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,

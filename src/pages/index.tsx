@@ -58,6 +58,7 @@ const Home = () => {
       body: JSON.stringify({
         prompt: bookPrompt,
         max_tokens: 500,
+        temperature: 0.1,
       }),
     });
 
@@ -85,6 +86,7 @@ const Home = () => {
       body: JSON.stringify({
         prompt: autorPrompt,
         max_tokens: 800,
+        temperature: 0.1,
       }),
     });
 
@@ -112,6 +114,7 @@ const Home = () => {
       body: JSON.stringify({
         prompt: charactersPrompt,
         max_tokens: 500,
+        temperature: 0.1,
       }),
     });
 
@@ -139,6 +142,7 @@ const Home = () => {
       body: JSON.stringify({
         prompt: storyPrompt,
         max_tokens: 800,
+        temperature: 0.1,
       }),
     });
 
@@ -175,6 +179,7 @@ const Home = () => {
       body: JSON.stringify({
         prompt: questionPrompt,
         max_tokens: 2000,
+        temperature: 0.2,
       }),
     });
 
@@ -210,6 +215,7 @@ const Home = () => {
       body: JSON.stringify({
         prompt: seminarWorkPrompt,
         max_tokens: 2000,
+        temperature: 0.6,
       }),
     });
 
