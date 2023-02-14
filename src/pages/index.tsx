@@ -18,6 +18,7 @@ import {
   Tabs,
   Text,
   useDisclosure,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 
@@ -46,6 +47,8 @@ const Home = () => {
   const questionPrompt = `Sepiš mi v těchto bodech maturitní otázku na téma ${question} (zobraz v HTML kódu a místo /n dávej <br>, všechny odkazy se budou otevírat v novém okně a budou mít podtržení): Úvod do otázky, Obsah rozepiš obsáhle a do detailu, Odkazy na zajímavé a relavantní zdroje na internetu s českým obsahem, Závěr.`;
   const seminarWorkPrompt = `Napiš ${type} na téma ${about} v jazyce ${language} v rozsahu minimálně 300 slov (zobraz v HTML kódu a místo /n dávej <br>, text rozděl do odstavců, na konci práce dej dvakrát za sebou <br> a poté napiš tučně ${type} - prvky slohového útvaru:, pod to napiš v bodech co je typické pro tento slohý útvar).`;
 
+  const toast = useToast();
+
   const fetchBook = async () => {
     setbookDescription("");
     setLoadingBook(true);
@@ -65,6 +68,16 @@ const Home = () => {
     const dataBook = responseBook.body;
     if (!dataBook) {
       return;
+    }
+
+    if (responseBook.status === 500 || responseBook.status === 429) {
+      toast({
+        title: "Stala se chyba",
+        description: "Umělá intelegence je aktuálně přetížená dotazy. Zkuste to později.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
     }
 
     const readerBook = dataBook.getReader();
@@ -151,6 +164,16 @@ const Home = () => {
       return;
     }
 
+    if (responseStory.status === 500 || responseStory.status === 429) {
+      toast({
+        title: "Stala se chyba",
+        description: "Umělá intelegence je aktuálně přetížená dotazy. Zkuste to později.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+
     const readerStory = dataStory.getReader();
     const decoderStory = new TextDecoder();
     let doneStory = false;
@@ -207,7 +230,7 @@ const Home = () => {
     setSeminarWork("");
     setLoadingSeminarWork(true);
 
-    const response = await fetch("/api/chat-gpt", {
+    const responseSeminarWork = await fetch("/api/chat-gpt", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -219,9 +242,19 @@ const Home = () => {
       }),
     });
 
-    const data = response.body;
+    const data = responseSeminarWork.body;
     if (!data) {
       return;
+    }
+
+    if (responseSeminarWork.status === 500 || responseSeminarWork.status === 429) {
+      toast({
+        title: "Stala se chyba",
+        description: "Umělá intelegence je aktuálně přetížená dotazy. Zkuste to později.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
     }
 
     const reader = data.getReader();
